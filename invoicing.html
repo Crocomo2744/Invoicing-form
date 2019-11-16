@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Invoice form</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="jquery-3.4.1.js"></script>
+  <script src="script.js"></script>
+</head>
+<body>
+
+        <form class="form-invoice">
+            <div class="invoice_information">
+                <h1> Invoice information</h1>
+                <div class="invoice">
+                    <label for="invoice_number">Invoice number</label>
+                    <input type="number" name="invoice_number" min="1" required>
+                    <span>Enter the number of the invoice</span>
+                </div>
+                <div class="invoice">
+                    <label for="current_date">Date</label>
+                    <input type="date" name="current_date" required>
+                    <span>Enter the current date</span>
+                </div>
+                <div class="invoice">
+                    <label for="due_date">Due date</label>
+                    <input type="date" name="due_date" required>
+                    <span>Enter the due date</span>
+                </div>                
+            </div>
+            <div class="customer_details">
+                <h1> Customer details</h1>
+                <div class="customer_personnal_information">
+                    <div class="invoice">
+                        <label for="customer_name">Name</label>
+                        <input type="text" name="customer_name" maxlength="50" required>
+                        <span>Enter the customer's full name</span>
+                    </div>
+                    <div class="invoice">
+                        <label for="customer_email">Email</label>
+                        <input type="email" name="customer_email" maxlength="50" required>
+                        <span>Enter the customer's email</span>
+                    </div>
+                    <div class="invoice">
+                        <label for="customer_tel">Tel</label>
+                        <input type="text" name="customer_tel" maxlength="13" required>
+                        <span>Enter the customer's phone number</span>
+                    </div>     
+                </div>
+                <div class="customer_adress_details">
+                    <div class="invoice" id="adress">
+                        <label for="customer_adress">Adress</label>
+                        <input type="text" name="customer_adress" maxlength="50" required>
+                        <span>Enter the customer's adress</span>
+                    </div>
+                    <div class="invoice" id="postcode">
+                        <label for="customer_postcode">Postcode</label>
+                        <input type="number" name="customer_postcode" minlength="4" maxlength="6" required>
+                        <span>Enter the customer's postcode</span>
+                    </div>
+                    <div class="invoice">
+                        <label for="customer_city">City</label>
+                        <input type="text" name="customer_city" maxlength="50" required>
+                        <span>Enter the customer's city</span>
+                    </div>
+                    <div class="invoice">
+                        <label for="customer_country">Country</label>
+                        <input type="text" name="customer_city" maxlength="50" required>
+                        <span>Enter the customer's country</span>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="proper_details">
+                    <h1> Business details</h1>
+                    <div class="proper_personnal_information">
+                        <div class="invoice">
+                            <label for="proper_name">Name</label>
+                            <input type="text" name="proper_name" maxlength="50">
+                            <span>Enter your full name</span>
+                        </div>
+                        <div class="invoice">
+                            <label for="proper_email">Email</label>
+                            <input type="email" name="proper_email" maxlength="50">
+                            <span>Enter your email</span>
+                        </div>
+                        <div class="invoice">
+                            <label for="proper_tel">Tel</label>
+                            <input type="text" name="proper_tel" maxlength="13">
+                            <span>Enter your phone number</span>
+                        </div>     
+                    </div>
+                    <div class="proper_adress_details">
+                        <div class="invoice" id="adress">
+                            <label for="proper_adress">Adress</label>
+                            <input type="text" name="proper_adress" maxlength="50">
+                            <span>Enter your adress</span>
+                        </div>
+                        <div class="invoice" id="postcode">
+                            <label for="proper_postcode">Postcode</label>
+                            <input type="number" name="proper_postcode" maxlength="6">
+                            <span>Enter your postcode</span>
+                        </div>
+                        <div class="invoice">
+                            <label for="proper_city">City</label>
+                            <input type="text" name="proper_city" maxlength="20">
+                            <span>Enter your city</span>
+                        </div>
+                        <div class="invoice">
+                            <label for="proper_country">Country</label>
+                            <input type="text" name="proper_country" maxlength="50">
+                            <span>Enter your country</span>
+                        </div>
+                    </div>
+
+                </div>
+                <button type="button" class="testinvoice">Alert items</button>
+            </form>
+
+            </div>
+            <div class="items_invoice">
+                <div>
+                    <h1>Add new items in your invoice</h1>
+                </div>
+    
+            
+                <form id="newitems">
+
+                        
+                        <input id="items" type="number" placeholder="Items" class="items_form">
+                        <input id="names" type="text" placeholder="Names" class="names_fomr">
+                        <input type="text" id="description" placeholder="Description" class="description_form">
+                        <input type="number" id="quantity" placeholder="Quantity" class="quantity_form">
+                        <input type="number" id="unit_price" placeholder="Unit price" class="unit_price_form">
+                        <input type="number" id="tax" placeholder="Tax" class="tax_form">
+                        <input type="number" id="total" placeholder="Total" class="total_form">
+                        <input type="button" class="add-row" value="Add Row">
+
+
+                <table id="items_table">
+
+                    
+                    <tr>
+                        <th>✓</th>
+                        <th id="items_result">Items</th>
+                        <th id="names_result"> Names </th>
+                        <th id="description_result"> Description </th>
+                        <th id="quantity_result"> Quantity </th>
+                        <th id="unit_price_result"> Unit price </th>
+                        <th id="tax_result"> Tax </th>
+                        <th id="total_result"> Total </th>
+
+                    </tr>
+                
+
+                </table>
+                <button type="button" class="delete-row">Delete Row</button>
+                <button type="button" class="testValue">Alert items</button>
+            </div>
+          
+</body>
+</html>
