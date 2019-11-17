@@ -10,23 +10,10 @@
 <body>
 
         <form class="form-invoice">
-            <div class="invoice_information">
-                <h1> Invoice information</h1>
-                <div class="invoice">
-                    <label for="invoice_number">Invoice number</label>
-                    <input type="number" name="invoice_number" min="1" required>
-                    <span>Enter the number of the invoice</span>
-                </div>
-                <div class="invoice">
-                    <label for="current_date">Date</label>
-                    <input type="date" name="current_date" required>
-                    <span>Enter the current date</span>
-                </div>
-                <div class="invoice">
-                    <label for="due_date">Due date</label>
-                    <input type="date" name="due_date" required>
-                    <span>Enter the due date</span>
-                </div>                
+                
+                
+
+           
             </div>
             <div class="customer_details">
                 <h1> Customer details</h1>
@@ -38,12 +25,12 @@
                     </div>
                     <div class="invoice">
                         <label for="customer_email">Email</label>
-                        <input type="email" name="customer_email" maxlength="50" required>
+                        <input type="email" name="customer_email" maxlength="50" >
                         <span>Enter the customer's email</span>
                     </div>
                     <div class="invoice">
                         <label for="customer_tel">Tel</label>
-                        <input type="text" name="customer_tel" maxlength="13" required>
+                        <input type="tel" name="customer_tel" maxlength="13" >
                         <span>Enter the customer's phone number</span>
                     </div>     
                 </div>
@@ -65,12 +52,34 @@
                     </div>
                     <div class="invoice">
                         <label for="customer_country">Country</label>
-                        <input type="text" name="customer_city" maxlength="50" required>
+                        <input type="text" name="customer_country" maxlength="50" required>
                         <span>Enter the customer's country</span>
                     </div>
                 </div>
             </div>
-            
+        </form>
+
+
+
+        <div class="invoice_information">
+            <h1> Invoice information</h1>
+            <div class="invoice">
+                <label for="invoice_number">Invoice number</label>
+                <input type="text" name="invoice_number" required>
+                <span>Enter the number of the invoice</span>
+            </div>
+            <div class="invoice">
+                <label for="current_date">Date</label>
+                <input type="date" name="current_date" class="theDate" required>
+                <span>Enter the current date</span>
+            </div>
+            <div class="invoice">
+                <label for="due_date">Due date</label>
+                <input type="date" name="due_date" class="theDate" required>
+                <span>Enter the due date</span>
+            </div>                
+
+
                 <div class="proper_details">
                     <h1> Business details</h1>
                     <div class="proper_personnal_information">
@@ -86,7 +95,7 @@
                         </div>
                         <div class="invoice">
                             <label for="proper_tel">Tel</label>
-                            <input type="text" name="proper_tel" maxlength="13">
+                            <input type="tel" name="proper_tel" maxlength="13">
                             <span>Enter your phone number</span>
                         </div>     
                     </div>
@@ -114,8 +123,8 @@
                     </div>
 
                 </div>
-                <button type="button" class="testinvoice">Send your invoice</button>
-            </form>
+              
+           
 
             </div>
             <div class="items_invoice">
@@ -132,8 +141,8 @@
                         <input type="text" id="description" placeholder="Description" class="description_form">
                         <input type="number" id="quantity" placeholder="Quantity" class="quantity_form">
                         <input type="number" id="unit_price" placeholder="Unit price" class="unit_price_form">
-                        <input type="number" id="tax" placeholder="Tax" class="tax_form">
-                        <input type="number" id="total" placeholder="Total" class="total_form">
+                        <input type="number" id="tax" placeholder="Tax in percent" class="tax_form">
+                        
                         <input type="button" class="add-row" value="Add Row">
 
 
@@ -148,7 +157,7 @@
                         <th id="quantity_result"> Quantity </th>
                         <th id="unit_price_result"> Unit price </th>
                         <th id="tax_result"> Tax </th>
-                        <th id="total_result"> Total </th>
+                      
 
                     </tr>
                 
@@ -156,6 +165,7 @@
                 </table>
                 <button type="button" class="delete-row">Delete Row</button>
             </div>
+            <button type="button" class="send_invoice">Send your invoice</button>
           
 </body>
 </html>
