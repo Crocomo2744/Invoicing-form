@@ -13,7 +13,7 @@ $(".send_invoice").click(function(){
 
 var ajaxRequest = $.ajax({
 type: "POST",
-url: '',// je ne sais pas trop quelle url mettre 
+url: 'http://localhost:8000/api/invoice/generate',// je ne sais pas trop quelle url mettre 
 data: $(".form-invoice").serialize(),
 dataType: "json",
         
