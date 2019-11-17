@@ -1,3 +1,52 @@
+$(".send_invoice").click(function(){
+  var invoice_number = $('input[name="invoice_number"]').val();
+  var current_date = $('input[name="current_date"]').val()
+  var due_date = $('input[name="due_date"]').val();
+  var customer_name = $('input[name="customer_name"]').val();
+  var customer_email = $('input[name="customer_email"]').val()
+  var customer_tel = $('input[name="customer_tel"]').val();
+  var customer_adress = $('input[name="customer_adress"]').val();
+  var customer_postcode = $('input[name="customer_postcode"]').val()
+  var customer_city = $('input[name="customer_city"]').val();
+  var customer_country = $('input[name="customer_country"]').val();
+})
+
+var ajaxRequest = $.ajax({
+type: "POST",
+url: '',// je ne sais pas trop quelle url mettre 
+data: $(".form-invoice").serialize(),
+dataType: "json",
+        
+success: function(result)
+  {
+    $.each(result,function(index, value)
+    { 
+    alert(index+' : '+value);
+    })
+
+  }
+});
+$.when(ajaxRequest).done(function (ajaxValue) {
+var win = window.open('', '_blank');
+win.location.href = ajaxValue;
+});
+
+
+$(document).ready(function() {
+  var date = new Date();
+
+  var day = date.getDate();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+
+  if (month < 10) month = "0" + month;
+  if (day < 10) day = "0" + day;
+
+  var today = year + "-" + month + "-" + day;       
+  $(".theDate").attr("value", today);
+});
+
+
 $(document).ready(function(){
   $(".add-row").click(function(){
     var items = $("#items").val();
@@ -10,6 +59,7 @@ $(document).ready(function(){
     var test = "<tr><td><input type='checkbox' name='record'></td><td>" + items + "</td><td>" + names+ "</td><td>" + description +"</td><td>" + quantity + "</td><td>" + unitPrice + "</td><td>" + tax + "</td><td>" + total + "</td></tr>";
     $("table").append(test);
     $("#newitems")[0].reset();
+    
   });
 
   $(".delete-row").click(function(){
@@ -22,13 +72,10 @@ $(document).ready(function(){
     });
   });
 
-  $(".testValue").click(function(){
-        var allitems = $(".items_form").val();
-        alert(allitems);
-    });
 
 
-    $(".testinvoice").click(function invoice_information(invoice_number, current_date, due_date){
+
+    $(".testinvoice").click(function invoice_information(){
       this.invoice_number = $('input[name="invoice_number"]').val();
       this.current_date = $('input[name="current_date"]').val()
       this.due_date = $('input[name="due_date"]').val();
@@ -53,4 +100,6 @@ $(document).ready(function(){
       this.city = $('input[name="proper_city"]').val();
       this.country = $('input[name="proper_country"]').val();
     });
+
+    
 });
