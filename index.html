@@ -11,10 +11,25 @@
 
         <form class="form-invoice">
                 
-                
-
-           
+                         
             </div>
+            <div class="invoice_information">
+                <h1> Invoice information</h1>
+                <div class="invoice">
+                    <label for="invoice_number">Invoice number</label>
+                    <input type="text" name="invoice_number" required>
+                    <span>Enter the number of the invoice</span>
+                </div>
+                <div class="invoice">
+                    <label for="current_date">Date</label>
+                    <input type="date" name="current_date" class="theDate" required>
+                    <span>Enter the current date</span>
+                </div>
+                <div class="invoice">
+                    <label for="due_date">Due date</label>
+                    <input type="date" name="due_date" class="theDate" required>
+                    <span>Enter the due date</span>
+                </div>                
             <div class="customer_details">
                 <h1> Customer details</h1>
                 <div class="customer_personnal_information">
@@ -34,11 +49,11 @@
                         <span>Enter the customer's phone number</span>
                     </div>     
                 </div>
-                <div class="customer_adress_details">
-                    <div class="invoice" id="adress">
-                        <label for="customer_adress">Adress</label>
-                        <input type="text" name="customer_adress" maxlength="50" required>
-                        <span>Enter the customer's adress</span>
+                <div class="customer_address_details">
+                    <div class="invoice" id="address">
+                        <label for="customer_address">Adress</label>
+                        <input type="text" name="customer_address" maxlength="50" required>
+                        <span>Enter the customer's address</span>
                     </div>
                     <div class="invoice" id="postcode">
                         <label for="customer_postcode">Postcode</label>
@@ -61,23 +76,7 @@
 
 
 
-        <div class="invoice_information">
-            <h1> Invoice information</h1>
-            <div class="invoice">
-                <label for="invoice_number">Invoice number</label>
-                <input type="text" name="invoice_number" required>
-                <span>Enter the number of the invoice</span>
-            </div>
-            <div class="invoice">
-                <label for="current_date">Date</label>
-                <input type="date" name="current_date" class="theDate" required>
-                <span>Enter the current date</span>
-            </div>
-            <div class="invoice">
-                <label for="due_date">Due date</label>
-                <input type="date" name="due_date" class="theDate" required>
-                <span>Enter the due date</span>
-            </div>                
+        
 
 
                 <div class="proper_details">
@@ -99,11 +98,11 @@
                             <span>Enter your phone number</span>
                         </div>     
                     </div>
-                    <div class="proper_adress_details">
-                        <div class="invoice" id="adress">
-                            <label for="proper_adress">Adress</label>
-                            <input type="text" name="proper_adress" maxlength="50">
-                            <span>Enter your adress</span>
+                    <div class="proper_address_details">
+                        <div class="invoice" id="address">
+                            <label for="proper_address">Adress</label>
+                            <input type="text" name="proper_address" maxlength="50">
+                            <span>Enter your address</span>
                         </div>
                         <div class="invoice" id="postcode">
                             <label for="proper_postcode">Postcode</label>
@@ -136,7 +135,7 @@
                 <form id="newitems">
 
                         
-                        <input id="items" type="number" placeholder="Items" class="items_form">
+                        <input id="items" type="text" placeholder="Items" class="items_form">
                         <input id="names" type="text" placeholder="Names" class="names_fomr">
                         <input type="text" id="description" placeholder="Description" class="description_form">
                         <input type="number" id="quantity" placeholder="Quantity" class="quantity_form">
@@ -146,9 +145,10 @@
                         <input type="button" class="add-row" value="Add Row">
 
 
+                </form>
                 <table id="items_table">
 
-                    
+                <tbody>
                     <tr>
                         <th>✓</th>
                         <th id="items_result">Items</th>
@@ -160,12 +160,13 @@
                       
 
                     </tr>
-                
+                </tbody>
 
                 </table>
                 <button type="button" class="delete-row">Delete Row</button>
             </div>
             <button type="button" class="send_invoice">Send your invoice</button>
-          
+            <button type="button" class="table_value">Alert the table value</button>
+            
 </body>
 </html>
