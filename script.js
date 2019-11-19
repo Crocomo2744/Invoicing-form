@@ -7,8 +7,10 @@
       var due_date_recup = $('input[name="due_date"]').val();
       var due_date = new Date(due_date_recup).getTime()
       var customer_name = $('input[name="customer_name"]').val();
+      
       var customer_email = $('input[name="customer_email"]').val();
       var customer_tel = $('input[name="customer_tel"]').val();
+      
       var customer_address = $('input[name="customer_address"]').val();
       var customer_postcode = $('input[name="customer_postcode"]').val();
       var customer_city = $('input[name="customer_city"]').val();
@@ -25,8 +27,8 @@
 
       var d = {
         "id" : invoice_number,
-        "date" : current_date, // à modifier et la mettre en sec
-        "due_date" : due_date, // same
+        "date" : current_date,
+        "due_date" : due_date,
         "customer" : [
           {
             "summary" : customer_name,
@@ -56,7 +58,7 @@
       }
       $(".form-invoice")[0].reset();
 
-      
+
       var ajaxRequest = $.ajax({
         type: "POST",
         url: 'https://invoice-as-a-service.cleverapps.io/api/invoice/generate',
@@ -81,38 +83,34 @@
      
         
     })
+  
+
     $(".table_value").click(function(){
+      var rowCount = $('#items_table >tbody >tr').length; 
+      var items = [];
+      var item = {};
       
-      var td_value = [];
-      var td_cont = 0;
-      var arrayItems = [];
-      $("td").each(function(){
-        td_value[td_cont] = $(this).text();
-        arrayItems.push(td_value[td_cont]) ;
-        td_cont++;
-        });
-        
-        var rowCount = $('#items_table >tbody >tr').length; 
-        var items = [];
-        var item = {};
-    
-        for (i=1; i<rowCount; i++){
-          item = {
-            "item" : arrayItems[1],
-            "name" : arrayItems[2],
-            "description" : arrayItems[3],
-            "quantity" : arrayItems[4],
-            "unit_price" : arrayItems[5],
-            "tax" : arrayItems[6],
-          }
+      for (var i = 1 ; i<rowCount; i++){
+          var item_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[1].innerHTML;
+          var name_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[2].innerHTML;
+          var description_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[3].innerHTML;          
+          var quantity_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[4].innerHTML;
+          var unit_price_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[5].innerHTML;
           
-          items.push(item);
-          arrayItems.splice(0,6);
-
+          item = {
+            "item" : item_test,
+            "name" : name_test,
+            "description" : description_test,
+            "quantity" : quantity_test,
+            "unit_price" : unit_price_test,
+          }
+          items.push(item)
+          alert(JSON.stringify(item));
         }
-
-
+        alert(JSON.stringify(items));
+      
     });
+
 
     $(".add-row").click(function(){
       var items = $("#items").val();
@@ -152,5 +150,6 @@
     $(".theDate").attr("value", today);
 
   });
+
 
 
