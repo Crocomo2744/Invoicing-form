@@ -127,6 +127,7 @@
 
             </div>
             <div class="items_invoice">
+                <div class="items_invoicing">
                 <div>
                     <h1>Add new items in your invoice</h1>
                 </div>
@@ -140,12 +141,16 @@
                         <input type="text" id="description" placeholder="Description" class="description_form">
                         <input type="number" id="quantity" placeholder="Quantity" class="quantity_form">
                         <input type="number" id="unit_price" placeholder="Unit price" class="unit_price_form">
-                        <input type="number" id="tax" placeholder="Tax in percent" class="tax_form">
+                        <input type="number" id="tax" placeholder="% of tax" class="tax_form" min="0" max="100">
                         
                         <input type="button" class="add-row" value="Add Row">
 
 
                 </form>
+                <br>
+                <br>
+
+                <h2> Result of your items :</h2>
                 <table id="items_table">
 
                 <tbody>
@@ -157,16 +162,43 @@
                         <th id="quantity_result"> Quantity </th>
                         <th id="unit_price_result"> Unit price </th>
                         <th id="tax_result"> Tax </th>
-                      
-
+                        <th id="total_for_one_line">Total</th>
+                        <th id="tax_income">Tax income</th>
+                       
                     </tr>
+                    
                 </tbody>
 
                 </table>
-                <button type="button" class="delete-row">Delete Row</button>
+                <br><br><br><br>
+                <span>You can delete some rows if you want : </span><button type="button" class="delete-row">Delete row</button> <br><br><br>
+
+            
+            <div class="display_total">
+                <h2 class="total_title"> Total : </h2>
+                <table class="total_table">
+                <tr>
+                    <td id="subtotal"> Subtotal</td>
+                    <td id="subtotal_result"></td>
+                </tr>
+                <tr>
+                    <td id="taxes"> Taxes</td>
+                    <td id="taxes_result"></td>
+                </tr>
+                <tr>
+                    <td id="final_total"> TOTAL (including taxes)</td>
+                    <td id="final_total_result"></td>
+                </tr>
+                </table>
             </div>
+            
+
+            </div>
+
+            
             <button type="button" class="send_invoice">Send your invoice</button>
             <button type="button" class="table_value">Alert the table value</button>
+        
             
 </body>
 </html>
