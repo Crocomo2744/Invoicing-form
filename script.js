@@ -1,4 +1,8 @@
   $(document).ready(function() {
+   $("#subtotal_result").html(0+" €");
+   $("#taxes_result").html(0+" €");
+   $("#final_total_result").html(0+" €");
+
     
     $(".send_invoice").click(function(){
       var invoice_number = $('input[name="invoice_number"]').val();
@@ -23,9 +27,36 @@
       var proper_postcode = $('input[name="proper_postcode"]').val();
       var proper_city = $('input[name="proper_city"]').val();
       var proper_country = $('input[name="proper_country"]').val();
+      var d ={};
 
+      var rowCount = $('#items_table >tbody >tr').length; 
+      var items = [];
+      var item = {};
+      
+      for (var i = 1 ; i<rowCount; i++){
+          var item_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[1].innerHTML;
+          var name_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[2].innerHTML;
+          var description_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[3].innerHTML;          
+          var quantity_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[4].innerHTML;
+          var unit_price_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[5].innerHTML;
+          var tax_test=document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[6].innerHTML;
+          
+          item = {
+            "item" : item_test,
+            "name" : name_test,
+            "description" : description_test,
+            "quantity" : quantity_test,
+            "unit_price" : unit_price_test,
+            "tax" : tax_test
+          }
+          items.push(item)
+          alert(JSON.stringify(item));
+        }
+        alert(JSON.stringify(items));
+      
+ 
 
-      var d = {
+      d = {
         "id" : invoice_number,
         "date" : current_date,
         "due_date" : due_date,
@@ -56,6 +87,7 @@
         
 
       }
+      console.log(d);
       $(".form-invoice")[0].reset();
 
 
@@ -96,6 +128,8 @@
           var description_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[3].innerHTML;          
           var quantity_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[4].innerHTML;
           var unit_price_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[5].innerHTML;
+          var tax_test=document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[6].innerHTML;
+          console.log(tax_test);
           
           item = {
             "item" : item_test,
@@ -103,6 +137,7 @@
             "description" : description_test,
             "quantity" : quantity_test,
             "unit_price" : unit_price_test,
+            "tax" : tax_test
           }
           items.push(item)
           alert(JSON.stringify(item));
@@ -119,18 +154,50 @@
       var quantity = $("#quantity").val();
       var unitPrice  = $("#unit_price").val();
       var tax = $("#tax").val();
-      var test = "<tr><td><input type='checkbox' name='record'></td><td>" + items + "</td><td>" + names+ "</td><td>" + description +"</td><td>" + quantity + "</td><td>" + unitPrice + "</td><>" + tax  + "</td></tr></<tr>";    $("table").append(test);
-      $("#newitems")[0].reset();
+      var total = quantity * unitPrice;
+      var tax_income= (tax/100)*total;
+      tax_income.toFixed(2);
+      var test = "<tr><td><input type='checkbox' name='record'></td><td>" + items + "</td><td>" + names+ "</td><td>" + description +"</td><td>" + quantity + "</td><td>" + unitPrice + "</td><td>" + tax  + "</td><td>" + total +"</td><td>" + tax_income + "</td></tr>";    $("#items_table").append(test);
+
       
+      $("#newitems")[0].reset();
+      $("#items_table").find('tr').each(function(){
+        var rowCount = $('#items_table >tbody >tr').length;
+        var subtotal=0;
+        var taxes = 0;
+        var final_total = 0; 
+        for (var a = 1 ; a<rowCount; a++){
+        subtotal+= Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[7].innerHTML);
+        taxes += Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[8].innerHTML);
+        final_total = subtotal+taxes;
+        }
+        document.getElementById("subtotal_result").innerHTML = subtotal+" €";
+        document.getElementById("taxes_result").innerHTML = taxes+" €";
+        document.getElementById("final_total_result").innerHTML = final_total+" €";
+      });
     });
 
     $(".delete-row").click(function(){
-      $("table").find('input[name="record"]').each(function(){
+      $("#items_table").find('input[name="record"]').each(function(){
 
         if($(this).is(":checked")){
 
             $(this).parents("tr").remove();
           }
+      });
+      $("#items_table").find('tr').each(function(){
+        var rowCount = $('#items_table >tbody >tr').length;
+        var subtotal=0;
+        var taxes = 0;
+        var final_total = 0; 
+        for (var a = 1 ; a<rowCount; a++){
+        subtotal+= Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[7].innerHTML);
+        taxes += Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[8].innerHTML);
+        final_total = subtotal+taxes;
+        }
+        document.getElementById("subtotal_result").innerHTML = subtotal+" €";
+        document.getElementById("taxes_result").innerHTML = taxes+" €";
+        document.getElementById("final_total_result").innerHTML = final_total+" €";
       });
 
     });
@@ -149,7 +216,6 @@
     var today = year + "-" + month + "-" + day;       
     $(".theDate").attr("value", today);
 
-  });
 
-
+});
 
