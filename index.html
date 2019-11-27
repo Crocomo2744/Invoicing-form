@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="fr">
 <head>
@@ -12,7 +13,7 @@
         <form class="form-invoice">
                 
                          
-            </div>
+           
             <div class="invoice_information">
                 <h1> Invoice information</h1>
                 <div class="invoice">
@@ -136,14 +137,13 @@
                 <form id="newitems">
 
                         
-                        <input id="items" type="text" placeholder="Items" class="items_form">
                         <input id="names" type="text" placeholder="Names" class="names_fomr">
                         <input type="text" id="description" placeholder="Description" class="description_form">
-                        <input type="number" id="quantity" placeholder="Quantity" class="quantity_form">
+                        <input type="number" id="quantity" value="1" placeholder="Quantity" class="quantity_form">
                         <input type="number" id="unit_price" placeholder="Unit price" class="unit_price_form">
                         <input type="number" id="tax" placeholder="% of tax" class="tax_form" min="0" max="100">
                         
-                        <input type="button" class="add-row" value="Add Row">
+                        <input type="button" id="add-row" value="Add Row">
 
 
                 </form>
@@ -156,7 +156,6 @@
                 <tbody>
                     <tr>
                         <th>✓</th>
-                        <th id="items_result">Items</th>
                         <th id="names_result"> Names </th>
                         <th id="description_result"> Description </th>
                         <th id="quantity_result"> Quantity </th>
@@ -164,6 +163,7 @@
                         <th id="tax_result"> Tax </th>
                         <th id="total_for_one_line">Total</th>
                         <th id="tax_income">Tax income</th>
+                        <th> <button type="button" class="delete-row">Delete row</button></th>
                        
                     </tr>
                     
@@ -171,7 +171,7 @@
 
                 </table>
                 <br><br><br><br>
-                <span>You can delete some rows if you want : </span><button type="button" class="delete-row">Delete row</button> <br><br><br>
+                <button type="button" id="reset-row">Reset all <br> your items</button> <br><br><br>
 
             
             <div class="display_total">
@@ -194,11 +194,11 @@
             
 
             </div>
-
+                <br>
             
             <button type="button" class="send_invoice">Send your invoice</button>
-            <button type="button" class="table_value">Alert the table value</button>
-        
+           
+            <div id="result"></div>
             
 </body>
 </html>
