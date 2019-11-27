@@ -1,4 +1,8 @@
   $(document).ready(function() {
+  
+    
+
+
    $("#subtotal_result").html(0+" €");
    $("#taxes_result").html(0+" €");
    $("#final_total_result").html(0+" €");
@@ -7,9 +11,9 @@
     $(".send_invoice").click(function(){
       var invoice_number = $('input[name="invoice_number"]').val();
       var  current_date_recup= $('input[name="current_date"]').val();
-      var current_date = new Date(current_date_recup).getTime()
+      var current_date = (new Date(current_date_recup).getTime())/1000;
       var due_date_recup = $('input[name="due_date"]').val();
-      var due_date = new Date(due_date_recup).getTime()
+      var due_date = (new Date(due_date_recup).getTime()/1000);
       var customer_name = $('input[name="customer_name"]').val();
       
       var customer_email = $('input[name="customer_email"]').val();
@@ -34,34 +38,38 @@
       var item = {};
       
       for (var i = 1 ; i<rowCount; i++){
-          var item_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[1].innerHTML;
-          var name_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[2].innerHTML;
-          var description_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[3].innerHTML;          
-          var quantity_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[4].innerHTML;
-          var unit_price_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[5].innerHTML;
-          var tax_test=document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[6].innerHTML;
+          var name_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[1].innerHTML;
+          var description_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[2].innerHTML;          
+          var quantity_test = parseFloat(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[3].innerHTML) ;
+          var unit_price_test = parseFloat(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[4].innerHTML) ;
+          var tax_test= parseFloat(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[5].innerHTML) ;
           
           item = {
-            "item" : item_test,
-            "name" : name_test,
+            "title" : name_test,
             "description" : description_test,
+            "price" : unit_price_test,
             "quantity" : quantity_test,
-            "unit_price" : unit_price_test,
             "tax" : tax_test
           }
           items.push(item)
-          alert(JSON.stringify(item));
         }
-        alert(JSON.stringify(items));
-      
+        
  
 
-      d = {
-        "id" : invoice_number,
-        "date" : current_date,
-        "due_date" : due_date,
-        "customer" : [
-          {
+      var data = {
+        "id": invoice_number,
+        "currency": "€",
+        "lang": "en",
+        "date": current_date,
+        "due_date": due_date,
+        "payment_link": "https://amazon.com/user/invoices/42/pay",
+        "decimals": 2,
+        "notes": "Lorem ipsum dolor sit amet.",
+
+        "items": items
+        ,
+
+        "customer": {
             "summary" : customer_name,
             "address_line_1" : customer_address,
             "address_line_2" : customer_postcode,
@@ -69,10 +77,9 @@
             "adsress_line_4" : customer_country,
             "phone" : customer_tel,
             "email" : customer_email
-          }
-        ],
-        "company" : [
-          {
+        },
+
+        "company": {
             "summary" : proper_name,
             "address_line_1" : proper_address,
             "address_line_2" : proper_postcode,
@@ -80,75 +87,51 @@
             "adsress_line_4" : proper_country,
             "phone" : proper_tel,
             "email" : proper_email
-
-          }
-        ],
-        "items" : items
+        }
         
 
       }
-      console.log(d);
+      
+            
+        
       $(".form-invoice")[0].reset();
+      $("#items_table").find('input[name="record"]').each(function(){
+        $(this).parents("tr").remove();
+      
+      });
+      $("#subtotal_result").html(0+" €");
+      $("#taxes_result").html(0+" €");
+      $("#final_total_result").html(0+" €");
 
 
-      var ajaxRequest = $.ajax({
+      var ajaxRequest  = $.ajax({
         type: "POST",
         url: 'https://invoice-as-a-service.cleverapps.io/api/invoice/generate',
-        data: d,
+        data: data,
         dataType: "json",
                 
         success: function(result)
-          {
-            $.each(result,function(index, value)
-            { 
-            alert(index+' : '+value);
-            })
+          {alert("well done");
         
-          }
-        });
-        $.when(ajaxRequest).done(function (ajaxValue) {
+          },
+
+          error: function(jqXHR, textStatus, errorThrown) {
+            alert('An error occurred... Look at the console (F12 or Ctrl+Shift+I, Console tab) for more information!');
+
+            $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+           
+        } 
+      });
+      $.when(ajaxRequest).done(function (ajaxValue) {
         var win = window.open('', '_blank');
         win.location.href = ajaxValue;
-        });
-        
-        
-     
-        
-    })
-  
+  });
+  });
 
-    $(".table_value").click(function(){
-      var rowCount = $('#items_table >tbody >tr').length; 
-      var items = [];
-      var item = {};
-      
-      for (var i = 1 ; i<rowCount; i++){
-          var item_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[1].innerHTML;
-          var name_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[2].innerHTML;
-          var description_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[3].innerHTML;          
-          var quantity_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[4].innerHTML;
-          var unit_price_test = document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[5].innerHTML;
-          var tax_test=document.getElementsByTagName('table')[0].getElementsByTagName('tr')[i].cells[6].innerHTML;
-          console.log(tax_test);
-          
-          item = {
-            "item" : item_test,
-            "name" : name_test,
-            "description" : description_test,
-            "quantity" : quantity_test,
-            "unit_price" : unit_price_test,
-            "tax" : tax_test
-          }
-          items.push(item)
-          alert(JSON.stringify(item));
-        }
-        alert(JSON.stringify(items));
-      
-    });
+    
 
 
-    $(".add-row").click(function(){
-      var items = $("#items").val();
+    $("#add-row").click(function(){
       var names = $("#names").val();
       var description = $("#description").val();
       var quantity = $("#quantity").val();
@@ -157,24 +140,31 @@
       var total = quantity * unitPrice;
       var tax_income= (tax/100)*total;
       tax_income.toFixed(2);
-      var test = "<tr><td><input type='checkbox' name='record'></td><td>" + items + "</td><td>" + names+ "</td><td>" + description +"</td><td>" + quantity + "</td><td>" + unitPrice + "</td><td>" + tax  + "</td><td>" + total +"</td><td>" + tax_income + "</td></tr>";    $("#items_table").append(test);
+
+      if(names != "" & unitPrice != "" & tax != ""){
+        var test = "<tr><td><input type='checkbox' name='record'></td><td>"  + names+ "</td><td>" + description +"</td><td>" + quantity + "</td><td>" + unitPrice + "</td><td>" + tax  + "</td><td>" + total +"</td><td>" + tax_income + "</td></tr>";    $("#items_table").append(test);
 
       
-      $("#newitems")[0].reset();
-      $("#items_table").find('tr').each(function(){
-        var rowCount = $('#items_table >tbody >tr').length;
-        var subtotal=0;
-        var taxes = 0;
-        var final_total = 0; 
-        for (var a = 1 ; a<rowCount; a++){
-        subtotal+= Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[7].innerHTML);
-        taxes += Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[8].innerHTML);
-        final_total = subtotal+taxes;
-        }
-        document.getElementById("subtotal_result").innerHTML = subtotal+" €";
-        document.getElementById("taxes_result").innerHTML = taxes+" €";
-        document.getElementById("final_total_result").innerHTML = final_total+" €";
-      });
+        $("#newitems")[0].reset();
+        $("#items_table").find('tr').each(function(){
+          var rowCount = $('#items_table >tbody >tr').length;
+          var subtotal=0;
+          var taxes = 0;
+          var final_total = 0; 
+          for (var a = 1 ; a<rowCount; a++){
+          subtotal+= Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[6].innerHTML);
+          taxes += parseFloat(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[7].innerHTML);
+          final_total = subtotal+taxes;
+          }
+          document.getElementById("subtotal_result").innerHTML = subtotal+" €";
+          document.getElementById("taxes_result").innerHTML = taxes+" €";
+          document.getElementById("final_total_result").innerHTML = final_total+" €";
+        });
+      }
+      else{
+        alert("Names, Unit price and % of tax are compulsory")
+      }
+     
     });
 
     $(".delete-row").click(function(){
@@ -191,8 +181,9 @@
         var taxes = 0;
         var final_total = 0; 
         for (var a = 1 ; a<rowCount; a++){
-        subtotal+= Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[7].innerHTML);
-        taxes += Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[8].innerHTML);
+        subtotal+= Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[6].innerHTML);
+
+        taxes += parseFloat(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[7].innerHTML);
         final_total = subtotal+taxes;
         }
         document.getElementById("subtotal_result").innerHTML = subtotal+" €";
@@ -202,7 +193,21 @@
 
     });
 
-
+    $("#reset-row").click(function(){
+      $("#items_table").find('input[name="record"]').each(function(){
+            $(this).parents("tr").remove();
+          
+      });
+      var subtotal=0;
+      var taxes = 0;
+      var final_total = 0; 
+    
+      document.getElementById("subtotal_result").innerHTML = subtotal+" €";
+      document.getElementById("taxes_result").innerHTML = taxes+" €";
+      document.getElementById("final_total_result").innerHTML = final_total+" €";
+ 
+     
+    });
 
     var date = new Date();
 
