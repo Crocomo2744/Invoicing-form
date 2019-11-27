@@ -147,6 +147,10 @@ th {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
+button{
+	font-weight: bold;
+}
+
 table, td, tr, th {
 	border: 1px solid black;
 	border-collapse: collapse;
@@ -221,4 +225,9 @@ table, td, tr, th {
 #final_total_result{
 	width : 80px
 
+}
+.send_invoice{
+	text-align: center;
+	display: block;
+	margin: auto;
 }
