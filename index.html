@@ -16,10 +16,10 @@
            
             <div class="invoice_information">
                 <h1> Invoice information</h1>
-                <div class="invoice">
+                <div class="invoice" id="id">
                     <label for="invoice_number">Invoice number</label>
-                    <input type="text" name="invoice_number" required>
-                    <span>Enter the number of the invoice</span>
+                    <input type="text" name="invoice_number" >
+                    <span class="span1">Enter the number of the invoice</span><div class="span2" hidden><span>The fied is required</span></div>
                 </div>
                 <div class="invoice">
                     <label for="current_date">Date</label>
@@ -34,15 +34,15 @@
             <div class="customer_details">
                 <h1> Customer details</h1>
                 <div class="customer_personnal_information">
-                    <div class="invoice">
+                    <div class="invoice" id="customersummary">
                         <label for="customer_name">Name</label>
-                        <input type="text" name="customer_name" maxlength="50" required>
-                        <span>Enter the customer's full name</span>
+                        <input type="text" name="customer_name" maxlength="50" >
+                        <span  class="span1">Enter the customer's full name</span><div class="span2" hidden><span>The fied is required</span></div>
                     </div>
-                    <div class="invoice">
+                    <div class="invoice" id="customeremail">
                         <label for="customer_email">Email</label>
                         <input type="email" name="customer_email" maxlength="50" >
-                        <span>Enter the customer's email</span>
+                        <span  class="span1">Enter the customer's email</span><div class="span2" hidden><span>The email is not correct</span></div>
                     </div>
                     <div class="invoice">
                         <label for="customer_tel">Tel</label>
@@ -51,24 +51,24 @@
                     </div>     
                 </div>
                 <div class="customer_address_details">
-                    <div class="invoice" id="address">
+                    <div class="invoice" id="customeraddress_line_1">
                         <label for="customer_address">Adress</label>
                         <input type="text" name="customer_address" maxlength="50" required>
-                        <span>Enter the customer's address</span>
+                        <span  class="span1">Enter the customer's address</span><div class="span2" hidden><span>The fied is required</span></div>
                     </div>
                     <div class="invoice" id="postcode">
                         <label for="customer_postcode">Postcode</label>
-                        <input type="number" name="customer_postcode" minlength="4" maxlength="6" required>
+                        <input type="number" name="customer_postcode" minlength="4" maxlength="6" >
                         <span>Enter the customer's postcode</span>
                     </div>
                     <div class="invoice">
                         <label for="customer_city">City</label>
-                        <input type="text" name="customer_city" maxlength="50" required>
+                        <input type="text" name="customer_city" maxlength="50" >
                         <span>Enter the customer's city</span>
                     </div>
                     <div class="invoice">
                         <label for="customer_country">Country</label>
-                        <input type="text" name="customer_country" maxlength="50" required>
+                        <input type="text" name="customer_country" maxlength="50" >
                         <span>Enter the customer's country</span>
                     </div>
                 </div>
@@ -82,16 +82,17 @@
 
                 <div class="proper_details">
                     <h1> Business details</h1>
+                    <button type="button" id="webStorage">Use your usual information</button>
                     <div class="proper_personnal_information">
-                        <div class="invoice">
+                        <div class="invoice" id="companysummary">
                             <label for="proper_name">Name</label>
-                            <input type="text" name="proper_name" maxlength="50">
-                            <span>Enter your full name</span>
+                            <input type="text" name="proper_name" maxlength="50" id="toto">
+                            <span  class="span1">Enter your full name</span><div class="span2" hidden><span>The fied is required</span></div>
                         </div>
-                        <div class="invoice">
+                        <div class="invoice" id="companyemail">
                             <label for="proper_email">Email</label>
                             <input type="email" name="proper_email" maxlength="50">
-                            <span>Enter your email</span>
+                            <span  class="span1">Enter your email</span><div class="span2" hidden><span>The email is not correct</span></div>
                         </div>
                         <div class="invoice">
                             <label for="proper_tel">Tel</label>
@@ -100,10 +101,10 @@
                         </div>     
                     </div>
                     <div class="proper_address_details">
-                        <div class="invoice" id="address">
+                        <div class="invoice" id="companyaddress_line_1">
                             <label for="proper_address">Adress</label>
                             <input type="text" name="proper_address" maxlength="50">
-                            <span>Enter your address</span>
+                            <span  class="span1"> Enter your address</span><div class="span2" hidden><span>The fied is required</span></div>
                         </div>
                         <div class="invoice" id="postcode">
                             <label for="proper_postcode">Postcode</label>
@@ -137,15 +138,16 @@
                 <form id="newitems">
 
                         
-                        <input id="names" type="text" placeholder="Names" class="names_fomr">
-                        <input type="text" id="description" placeholder="Description" class="description_form">
+                        <input id="names" type="text" placeholder="Names" class="names_fomr" minlength="3">
+                        <input type="text" id="description" placeholder="Description" class="description_form" minlength="3">
                         <input type="number" id="quantity" value="1" placeholder="Quantity" class="quantity_form">
                         <input type="number" id="unit_price" placeholder="Unit price" class="unit_price_form">
                         <input type="number" id="tax" placeholder="% of tax" class="tax_form" min="0" max="100">
                         
                         <input type="button" id="add-row" value="Add Row">
-
-
+                    <br><br>
+                    
+                    <div id="items"><span class="span1"></span> <div class="span2" hidden><span>The fied is required</span></div> </div> 
                 </form>
                 <br>
                 <br>
@@ -195,10 +197,14 @@
 
             </div>
                 <br>
+            <div id="send_invoiceButton">
+                <button type="button" class="send_invoice">Send your invoice</button>
+                <div id='loader' hidden ></div>
+               
+            </div>
             
-            <button type="button" class="send_invoice">Send your invoice</button>
            
             <div id="result"></div>
-            
+           
 </body>
 </html>
