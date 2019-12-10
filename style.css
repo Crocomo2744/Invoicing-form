@@ -266,3 +266,66 @@ table, td, tr, th {
 	color: red;
 	border: 2px solid red;
 }
+.span3 > span{
+	color: red;
+	border: 2px solid red;
+}
+
+#history_menu {
+	padding:0px;
+	margin-left:800px;
+	list-style:none;
+	width: 200px; /* seule ligne rajoutée */
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+  }
+  #history_menu ul {
+	padding:0px;
+	margin-left:0;
+	list-style:none;
+	width: 175px; /* seule ligne rajoutée */
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	position: absolute;
+
+  }
+
+
+  #history_menu li {
+	padding-left: 20px;
+	background: #F3F3F3; 
+	border-radius: 6px;
+	margin-bottom:2px;
+	box-shadow: 3px 3px 3px #999;
+	border:solid 1px #333A40;
+	color: black;
+
+ }
+ #history_menu li li {
+	max-height:0;
+	overflow: hidden;
+	transition: all .5s;
+	border-radius:0;
+	background: white;
+	box-shadow: none;
+	border:none;
+	margin:0;
+	color: black;
+	
+ }
+ #history_menu a {
+   display:block;
+   text-decoration: none;
+   padding: 8px 0;
+ }
+ #history_menu ul li a, #history_menu li:hover li a {
+	font-size:1em
+  }
+  #history_menu li:hover {
+	 background: rgb(176, 176, 185);
+  }
+  
+  #history_menu li:hover li {
+	max-height: 15em;
+	color: black;
+  }
