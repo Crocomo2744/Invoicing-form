@@ -1,3 +1,22 @@
+var validRequest = false;
+
+function totalcalculation (){
+  $("#items_table").find('tr').each(function(){
+    var rowCount = $('#items_table >tbody >tr').length;
+    var subtotal=0;
+    var taxes = 0;
+    var final_total = 0; 
+    for (var a = 1 ; a<rowCount; a++){
+    subtotal+= Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[6].innerHTML);
+    taxes += parseFloat(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[7].innerHTML);
+    final_total = subtotal+taxes;
+    }
+    document.getElementById("subtotal_result").innerHTML = subtotal+" €";
+    document.getElementById("taxes_result").innerHTML = taxes+" €";
+    document.getElementById("final_total_result").innerHTML = final_total+" €";
+  });
+} 
+
 function fetchPDF(invoice_id, data) {
   const req = new XMLHttpRequest();
   req.open("POST", "https://invoice-as-a-service.cleverapps.io/api/invoice/generate", true);
@@ -22,13 +41,16 @@ function fetchPDF(invoice_id, data) {
       link.href = fileURL;
       link.download = "invoice-" + invoice_id + ".pdf";
       link.click();
+      validRequest = true;
+      
 
-      $("#items_table").find('input[name="record"]').each(function(){
+      $("#items_table").find("button").each(function(){
         $(this).parents("tr").remove();
       });
-      $("#subtotal_result").html(0+" €");
-      $("#taxes_result").html(0+" €");
-      $("#final_total_result").html(0+" €");
+      var currency = $("#currency").val();
+      $("#subtotal_result").html(0+" "+ currency);
+      $("#taxes_result").html(0+" "+ currency);
+      $("#final_total_result").html(0+" " + currency);
 
     } else if (req.status == 422) {
       const buff = String.fromCharCode.apply(null, new Uint8Array(req.response));
@@ -47,7 +69,6 @@ function fetchPDF(invoice_id, data) {
 
 function displayErrors(errors) {
   var objectTitle = Object.keys(errors);
-console.log(errors)
   for(var i =0; i<objectTitle.length; i++){
     var changes = objectTitle[i]
     var objectContent = errors[changes].toString();
@@ -73,52 +94,59 @@ function add (){
   var tax_income= (tax/100)*total;
   tax_income = tax_income.toFixed(2);
   if(names != "" & unitPrice != "" & tax != "" & names.length>2 & description.length>2){
-    var test = "<tr><td><input type='checkbox' name='record'></td><td>"  + names+ "</td><td>" + description +"</td><td>" + quantity + "</td><td>" + unitPrice + "</td><td>" + tax  + "</td><td>" + total +"</td><td>" + tax_income + "</td></tr>";    $("#items_table").append(test);
-
-  
+    var test = "<tr><td><td>"  + names+ "</td><td>" + description +"</td><td>" + quantity + "</td><td>" + unitPrice + "</td><td>" + tax  + "</td><td>" + total +"</td><td>" + tax_income + "</td><td>" +"<button type='button' class='delete-row'>Delete row</button>" +"</td></tr>";
+    $("#items_table").append(test);
     $("#newitems")[0].reset();
-    $("#items_table").find('tr').each(function(){
-      var rowCount = $('#items_table >tbody >tr').length;
-      var subtotal=0;
-      var taxes = 0;
-      var final_total = 0; 
-      for (var a = 1 ; a<rowCount; a++){
-      subtotal+= Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[6].innerHTML);
-      taxes += parseFloat(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[7].innerHTML);
-      final_total = subtotal+taxes;
-      }
-      document.getElementById("subtotal_result").innerHTML = subtotal+" €";
-      document.getElementById("taxes_result").innerHTML = taxes+" €";
-      document.getElementById("final_total_result").innerHTML = final_total+" €";
-      $("#items").find("span").html("").css({"border": "none"})
-    });
+    totalcalculation ();
+    $(".span3").hide();
   }
   else{
-   $("#items").find("span").html("Names, Description, Unit price and % of tax are compulsory <br> Names and Description field must be at least 3 characters").css({"color": "red", "border": "2px solid red"})
+   $(".span3").show();
   } 
 }
 
 
 $(document).ready(function() {
-  
-  $("#subtotal_result").html(0+" €");
-  $("#taxes_result").html(0+" €");
-  $("#final_total_result").html(0+" €");
 
-   
+  var countButton = 0;
+  var currency = $("#currency").val();
+  $("#subtotal_result").html(0+" "+ currency);
+  $("#taxes_result").html(0+" "+ currency);
+  $("#final_total_result").html(0+" " + currency);
+  
+  $("#currency").change(function(){
+    currency = $("#currency").val();
+    $("#subtotal_result").html(0+" "+ currency);
+    $("#taxes_result").html(0+" "+ currency);
+    $("#final_total_result").html(0+" " + currency);
+  });
+  
+  
+  var howmanybuttons = JSON.parse(localStorage.getItem("numberButtons"));
+for(var z=0; z<howmanybuttons; z++){
+  var storedButton = JSON.parse(localStorage.getItem("button"+z));
+  $("#history_menu").find("ul").append(storedButton);
+}
+$("#history_menu").find('.historyClass').each(function(){
+  countButton ++
+  
+});
+
+
   $(".send_invoice").click(function(){
     var invoice_number = $('input[name="invoice_number"]').val();
     var  current_date_recup= $('input[name="current_date"]').val();
+    console.log(current_date_recup)
+    console.log(typeof current_date_recup);
     var current_date = (new Date(current_date_recup).getTime())/1000;
     current_date = parseInt(current_date);
     var due_date_recup = $('input[name="due_date"]').val();
     var due_date = (new Date(due_date_recup).getTime()/1000);
     due_date= parseInt(due_date);
+
     var customer_name = $('input[name="customer_name"]').val();
-    
     var customer_email = $('input[name="customer_email"]').val();
     var customer_tel = $('input[name="customer_tel"]').val();
-    
     var customer_address = $('input[name="customer_address"]').val();
     var customer_postcode = $('input[name="customer_postcode"]').val();
     var customer_city = $('input[name="customer_city"]').val();
@@ -155,7 +183,7 @@ $(document).ready(function() {
 
     var data = {
       "id": invoice_number,
-      "currency": "€",
+      "currency": currency,
       "lang": "en",
       "date": current_date,
       "due_date": due_date,
@@ -188,29 +216,27 @@ $(document).ready(function() {
  }
  $(".span1").show()
  $(".span2").hide();
-
- var businnessData = {
-  "summary" : proper_name,
-  "address_line_1" : proper_address,
-  "address_line_2" : proper_postcode,
-  "address_line_3" : proper_city,
-  "address_line_4" : proper_country,
-  "phone" : proper_tel,
-  "email" : proper_email
- }
-
- function stockBusiness (){
-localStorage.setItem("businessInfo", JSON.stringify(businnessData))
- }
-
-stockBusiness();
-
+ var pricetotal = document.getElementById("final_total_result").innerHTML;
  fetchPDF(invoice_number, data);
+ 
+ function stockData (){
+  if(validRequest== true){
+   localStorage.setItem(invoice_number, JSON.stringify(data))
+
+
+   var saveButton = "<li><a href='#' id="+invoice_number+" class='historyClass' >Invoice_"+invoice_number+" : "+customer_name+" : "+ pricetotal + "</a></li>";
+   $("#history_menu").find("ul").append(saveButton);
+   var setItemnames= "button"+countButton;
+   localStorage.setItem(setItemnames,JSON.stringify(saveButton));
+   countButton++
+   localStorage.setItem("numberButtons",JSON.stringify(countButton));  
+
+  }
+ }
+ setTimeout(stockData, 5000); 
 });
-  
 
-
-$(document).keypress (function(event){2
+$(document).keypress (function(event){
   var names = $("#names").val();
   var description = $("#description").val();
   var unitPrice  = $("#unit_price").val();
@@ -221,70 +247,95 @@ $(document).keypress (function(event){2
       add();
     }
   }
-  
-})
-$("#webStorage").click(function(){
-
-  if(typeof localStorage!='undefined'){
-    var businnessData = JSON.parse(localStorage.getItem("businessInfo"));
-    $('input[name="proper_name"]').val(businnessData.summary)
-    $('input[name="proper_email"]').val(businnessData.email);
-    $('input[name="proper_tel"]').val(businnessData.phone);
-    $('input[name="proper_address"]').val(businnessData.address_line_1);
-    $('input[name="proper_postcode"]').val(businnessData.address_line_2);
-    $('input[name="proper_city"]').val(businnessData.address_line_3);
-    $('input[name="proper_country"]').val(businnessData.address_line_4);
-  }
-  else{
-    alert("You don't have any information saved yet")
-  }
- 
-})
-
-    $("#add-row").click(function (){
-      add();
-    });
+});
 
 
-   $(".delete-row").click(function(){
-     $("#items_table").find('input[name="record"]').each(function(){
+  $("#add-row").click(function (){
+    add();
 
-       if($(this).is(":checked")){
+  });
 
-           $(this).parents("tr").remove();
-         }
-     });
-     $("#items_table").find('tr').each(function(){
-       var rowCount = $('#items_table >tbody >tr').length;
-       var subtotal=0;
-       var taxes = 0;
-       var final_total = 0; 
-       for (var a = 1 ; a<rowCount; a++){
-       subtotal+= Math.round(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[6].innerHTML);
 
-       taxes += parseFloat(document.getElementsByTagName('table')[0].getElementsByTagName('tr')[a].cells[7].innerHTML);
-       final_total = subtotal+taxes;
-       }
-       document.getElementById("subtotal_result").innerHTML = subtotal+" €";
-       document.getElementById("taxes_result").innerHTML = taxes+" €";
-       document.getElementById("final_total_result").innerHTML = final_total+" €";
-     });
 
-   });
+  $("#items_table").on('click', '.delete-row', function(){
+    $(this).parents("tr").remove();
+    totalcalculation ();
+  });
 
    $("#reset-row").click(function(){
-     $("#items_table").find('input[name="record"]').each(function(){
+     $("#items_table").find("button").each(function(){
            $(this).parents("tr").remove();
-         
      });
      var subtotal=0;
      var taxes = 0;
      var final_total = 0; 
    
-     document.getElementById("subtotal_result").innerHTML = subtotal+" €";
-     document.getElementById("taxes_result").innerHTML = taxes+" €";
-     document.getElementById("final_total_result").innerHTML = final_total+" €";
+     document.getElementById("subtotal_result").innerHTML = subtotal+" "+ currency;
+     document.getElementById("taxes_result").innerHTML = taxes+" "+ currency;
+     document.getElementById("final_total_result").innerHTML = final_total+" "+ currency;
    });
+
+   $("#history_menu").on('click', '.historyClass', function(){
+    $("#items_table").find("button").each(function(){
+      $(this).parents("tr").remove();
+    });
+    var storedID = $(this).attr("id");
+   if(typeof localStorage!='undefined'){
+    $("#items_table").find('').each(function(){
+      $(this).parents("tr").remove();
+    });
+     var storedData = JSON.parse(localStorage.getItem(storedID));
+    //invoice data
+    $('input[name="invoice_number"]').val(storedData.id);
+    var storedDue_Date = new Date (storedData.due_date *1000);
+    storedDue_Date = storedDue_Date.toISOString()
+    storedDue_Date = storedDue_Date.slice(0, 10)
+    var storedCurrent_Date = new Date (storedData.date*1000);
+    storedCurrent_Date = storedCurrent_Date.toISOString()
+    storedCurrent_Date = storedCurrent_Date.slice(0, 10)
+    
+    $('input[name="current_date"]').val(storedCurrent_Date);
+    $('input[name="due_date"]').val(storedDue_Date);
+    $("#currency").val(storedData.currency)
+
+    // customer data
+    $('input[name="customer_name"]').val(storedData.customer.summary)
+    $('input[name="customer_email"]').val(storedData.customer.email);
+    $('input[name="customer_tel"]').val(storedData.customer.phone);
+    $('input[name="customer_address"]').val(storedData.customer.address_line_1);
+    $('input[name="customer_postcode"]').val(storedData.customer.address_line_2);
+    $('input[name="customer_city"]').val(storedData.customer.address_line_3);
+    $('input[name="customer_country"]').val(storedData.customer.address_line_4);
+    
+     //company data
+     $('input[name="proper_name"]').val(storedData.company.summary)
+     $('input[name="proper_email"]').val(storedData.company.email);
+     $('input[name="proper_tel"]').val(storedData.company.phone);
+     $('input[name="proper_address"]').val(storedData.company.address_line_1);
+     $('input[name="proper_postcode"]').val(storedData.company.address_line_2);
+     $('input[name="proper_city"]').val(storedData.company.address_line_3);
+     $('input[name="proper_country"]').val(storedData.company.address_line_4);
+
+     //items
+     var nbtable = storedData.items.length ;
+    for(var o=0; o<nbtable; o++){
+      var tablenames = storedData.items[o].title;
+      var tabledescription = storedData.items[o].description;
+      var tablequantity = storedData.items[o].quantity;
+      var tableunitPrice  = storedData.items[o].price;
+      var tabletax = storedData.items[o].tax;
+      var tabletotal = tablequantity * tableunitPrice;
+      var tabletax_income= (tabletax/100)*tabletotal;
+      tabletax_income = tabletax_income.toFixed(2);
+      var tabletest = "<tr><td><td>"  + tablenames+ "</td><td>" + tabledescription +"</td><td>" + tablequantity + "</td><td>" + tableunitPrice + "</td><td>" + tabletax  + "</td><td>" + tabletotal +"</td><td>" + tabletax_income + "</td><td>" +"<button type='button' class='delete-row'>Delete row</button>" +"</td></tr>"; 
+      $("#items_table").append(tabletest);
+    }
+    totalcalculation ()
+   }
+   else{
+     alert("You don't have any information saved yet")
+   }
+ });
 
    var date = new Date();
 
