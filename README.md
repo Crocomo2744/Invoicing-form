@@ -7,7 +7,7 @@ This form is used with "Invoice as a service" to generate professional looking P
 
 ## Example
 
-![Screenshot](/example.png)
+![image](https://user-images.githubusercontent.com/45011303/71642506-98562180-2cac-11ea-92cf-0c9e20487aee.png)
 
 
 ## Usage
