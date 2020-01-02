@@ -131,6 +131,24 @@ $("#history_menu").find('.historyClass').each(function(){
   countButton ++
   
 });
+var proper_logo = null;
+$('input[name="logo"]').on('change', function () {
+  var file = this.files[0];
+
+  if (file.size > 1024 * 1024) {
+    alert('Max upload size is 1 Mo');
+  }
+
+  var reader = new FileReader();
+  reader.readAsBinaryString(file);
+
+  reader.onload = function () {
+    proper_logo = "data:image/png;base64," + btoa(reader.result);
+  };
+  reader.onerror = function () {
+    console.log('there are some problems');
+  };
+});
 
 
   $(".send_invoice").click(function(){
@@ -151,6 +169,7 @@ $("#history_menu").find('.historyClass').each(function(){
     var customer_postcode = $('input[name="customer_postcode"]').val();
     var customer_city = $('input[name="customer_city"]').val();
     var customer_country = $('input[name="customer_country"]').val();
+    var customer_siret = $('input[name="customer_SIRET"]').val();
     
     var proper_name = $('input[name="proper_name"]').val();
     var proper_email = $('input[name="proper_email"]').val();
@@ -159,6 +178,7 @@ $("#history_menu").find('.historyClass').each(function(){
     var proper_postcode = $('input[name="proper_postcode"]').val();
     var proper_city = $('input[name="proper_city"]').val();
     var proper_country = $('input[name="proper_country"]').val();
+    var proper_siret = $('input[name="proper_SIRET"]').val();
 
 
     var rowCount = $('#items_table >tbody >tr').length; 
@@ -187,9 +207,7 @@ $("#history_menu").find('.historyClass').each(function(){
       "lang": "en",
       "date": current_date,
       "due_date": due_date,
-      "payment_link": "https://amazon.com/user/invoices/42/pay",
       "decimals": 2,
-      "notes": "Lorem ipsum dolor sit amet.",
 
       "items": items
       ,
@@ -201,7 +219,8 @@ $("#history_menu").find('.historyClass').each(function(){
           "address_line_3" : customer_city,
           "address_line_4" : customer_country,
           "phone" : customer_tel,
-          "email" : customer_email
+          "email" : customer_email,
+          "siret" : customer_siret
       },
 
       "company": {
@@ -211,7 +230,9 @@ $("#history_menu").find('.historyClass').each(function(){
           "address_line_3" : proper_city,
           "address_line_4" : proper_country,
           "phone" : proper_tel,
-          "email" : proper_email
+          "email" : proper_email,
+          "logo_b64" : proper_logo,
+          "siret" : proper_siret
       },
  }
  $(".span1").show()
@@ -351,3 +372,4 @@ $(document).keypress (function(event){
 
 
 });
+
