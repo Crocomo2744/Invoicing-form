@@ -26,17 +26,17 @@
                 <div class="invoice" id="id">
                     <label for="invoice_number">Invoice number</label>
                     <input type="text" name="invoice_number" >
-                    <span class="span1">Enter the number of the invoice</span><div class="span2" hidden><span>The fied is required</span></div>
+                    <span class="span1">Enter the number of the invoice</span><div class="span2" hidden><span>The field is required</span></div>
                 </div>
                 <div class="invoice">
                     <label for="current_date">Date</label>
                     <input type="date" name="current_date" class="theDate" required>
-                    <span>Enter the current date</span>
+                    <span>Enter the current date (*)</span>
                 </div>
                 <div class="invoice">
                     <label for="due_date">Due date</label>
                     <input type="date" name="due_date" class="theDate" required>
-                    <span>Enter the due date</span>
+                    <span>Enter the due date (*)</span>
                 </div>    
                 <div class="invoice">
                     <label for="currency">Currency</label>
@@ -55,7 +55,7 @@
                     <div class="invoice" id="customersummary">
                         <label for="customer_name">Name</label>
                         <input type="text" name="customer_name" maxlength="50" >
-                        <span  class="span1">Enter the customer's full name</span><div class="span2" hidden><span>The fied is required</span></div>
+                        <span  class="span1">Enter the customer's full name (*)</span><div class="span2" hidden><span>The field is required</span></div>
                     </div>
                     <div class="invoice" id="customeremail">
                         <label for="customer_email">Email</label>
@@ -72,7 +72,7 @@
                     <div class="invoice" id="customeraddress_line_1">
                         <label for="customer_address">Adress</label>
                         <input type="text" name="customer_address" maxlength="50" required>
-                        <span  class="span1">Enter the customer's address</span><div class="span2" hidden><span>The fied is required</span></div>
+                        <span  class="span1">Enter the customer's address (*)</span><div class="span2" hidden><span>The field is required</span></div>
                     </div>
                     <div class="invoice" id="postcode">
                         <label for="customer_postcode">Postcode</label>
@@ -89,6 +89,11 @@
                         <input type="text" name="customer_country" maxlength="50" >
                         <span>Enter the customer's country</span>
                     </div>
+                    <div class="invoice">
+                        <label for="customer_SIRET">Company registration number or SIRET</label>
+                        <input type="text" name="customer_SIRET" maxlength="50">
+                        <span>Enter the customer registration number</span>
+                    </div>
                 </div>
             </div>
         </form>
@@ -104,7 +109,7 @@
                         <div class="invoice" id="companysummary">
                             <label for="proper_name">Name</label>
                             <input type="text" name="proper_name" maxlength="50" id="toto">
-                            <span  class="span1">Enter your full name</span><div class="span2" hidden><span>The fied is required</span></div>
+                            <span  class="span1">Enter your full name (*)</span><div class="span2" hidden><span>The field is required</span></div>
                         </div>
                         <div class="invoice" id="companyemail">
                             <label for="proper_email">Email</label>
@@ -121,7 +126,7 @@
                         <div class="invoice" id="companyaddress_line_1">
                             <label for="proper_address">Adress</label>
                             <input type="text" name="proper_address" maxlength="50">
-                            <span  class="span1"> Enter your address</span><div class="span2" hidden><span>The fied is required</span></div>
+                            <span  class="span1"> Enter your address (*)</span><div class="span2" hidden><span>The field is required</span></div>
                         </div>
                         <div class="invoice" id="postcode">
                             <label for="proper_postcode">Postcode</label>
@@ -137,6 +142,17 @@
                             <label for="proper_country">Country</label>
                             <input type="text" name="proper_country" maxlength="50">
                             <span>Enter your country</span>
+                        </div>
+                        <div class="invoice">
+                            <label for="proper_SIRET">Company registration number or SIRET</label>
+                            <input type="text" name="proper_SIRET" maxlength="50">
+                            <span>Enter your registration number</span>
+                        </div>
+                        <div class="invoice" id="logo">
+                            <label for="logo">Logo</label>
+                            <input type="file" name="logo">
+                            <span class="span1">Enter the customer's address (*)</span>
+                            <div class="span2" hidden><span>The fied is required</span></div>
                         </div>
                     </div>
 
@@ -164,7 +180,7 @@
                         <input type="button" id="add-row" value="Add Row">
                     <br><br>
                     
-                    <div id="items"><span class="span1"></span> <div class="span2" hidden><span>The fied is required</span></div><div class="span3" hidden><span>Names, Description, Unit price and % of tax are compulsory <br> Names and Description field must be at least 3 characters</span></div> </div> 
+                    <div id="items"><span class="span1"></span> <div class="span2" hidden><span>The field is required</span></div><div class="span3" hidden><span>Names, Description, Unit price and % of tax are compulsory <br> Names and Description field must be at least 3 characters</span></div> </div> 
                 </form>
                 <br>
                 <br>
